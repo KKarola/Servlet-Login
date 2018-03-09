@@ -1,4 +1,7 @@
-<%--
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %><%--
   Created by IntelliJ IDEA.
   User: Karolina
   Date: 2018-03-07
@@ -10,8 +13,8 @@
 <head>
     <title>Login</title>
 </head>
-<body>
 
+<body>
 <h1>Welcome, please login</h1>
 
 <form action="/login" method="post">

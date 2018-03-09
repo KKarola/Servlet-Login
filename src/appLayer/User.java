@@ -1,9 +1,25 @@
 package appLayer;
 
 public class User {
-    public boolean isValidUserCredential(String userName, String userPassword) {
-        if (userName.equals("Karolina") && userPassword.equals("test123"))
-            return true;
-        return false;
+    private String login;
+    private String password;
+
+    public User() {
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
