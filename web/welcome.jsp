@@ -13,7 +13,7 @@
 <body>
 
 <h1>Welcome</h1>
-<p>Dear: ${username}</p>
+<p>Dear: ${loginname}</p>
 <p>Your password is: ${password}</p>
 
 </body>

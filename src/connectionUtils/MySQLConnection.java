@@ -8,7 +8,7 @@ public class MySQLConnection {
 
     public static Connection getMySQLConnection() throws ClassNotFoundException, SQLException {
         String hostName = "localhost";
-        String dbName = "register";
+        String dbName = "simplelogin";
         String userName = "root";
         String password = "";
         return getMySQLConnection(hostName, dbName, userName, password);

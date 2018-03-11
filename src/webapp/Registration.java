@@ -7,42 +7,42 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet(name = "Login")
-public class Login extends HttpServlet {
+@WebServlet(name = "Registration")
+public class Registration extends HttpServlet{
 
-    public Login() {
-    }
+    public Registration() { }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("loginname", request.getParameter("loginname"));
         request.setAttribute("password", request.getParameter("password"));
 
-        User user;
+        String firstName = request.getParameter("firstname");
+        String lastName = request.getParameter("lastname");
+        String mail = request.getParameter("mail");
         String login = request.getParameter("loginname");
         String password = request.getParameter("password");
 
-        if (login.equals("") || password.equals("")) {
-            request.setAttribute("errorMessage", "Required login and password. Try again.");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        if (firstName.equals("") || lastName.equals("") || mail.equals("") || login.equals("") || password.equals("")) {
+            request.setAttribute("errorMessage", "Please, fill out all fields.");
+            request.getRequestDispatcher("/registration.jsp").forward(request, response);
         } else {
+            User user = new User(firstName, lastName, mail, login, password);
+
             try {
                 Connection conn = utils.MyUtils.createConnection(request);
-                user = utils.DBUtils.findUser(conn, login, password);
 
-                if (user != null) {
-                    HttpSession session = request.getSession();
-                    utils.MyUtils.storeLoginedUser(session, user);
+                if (utils.DBUtils.addUser(conn, user)) {
                     request.getRequestDispatcher("/welcome.jsp").forward(request, response);
                 } else {
-                    request.setAttribute("errorMessage", "Invalid login or password. Try again.");
-                    request.getRequestDispatcher("/login.jsp").forward(request, response);
+                    request.setAttribute("errorMessage", "This login exist.");
+                    request.getRequestDispatcher("/registration.jsp").forward(request, response);
                 }
+
             } catch (SQLException | ClassNotFoundException exc) {
                 System.out.println("Error: " + exc);
             }
@@ -53,5 +53,4 @@ public class Login extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.print("Login-name" + request.getParameter("loginname") + "Password" + request.getParameter("password"));
     }
-
 }
